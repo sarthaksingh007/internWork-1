@@ -46,7 +46,7 @@ const registerSubUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("You are not authorized to do this");
   }
-  const { name, sl_no, gender, date_of_birth, pic, office_phone, mobile_no, email, username, password, privilege, status } = req.body;
+  const { name, sl_no, gender, date_of_birth, pic, office_phone, mobile_no, email, username, password, privilege, status,Price,SubcriptionDay,Quote } = req.body;
 
   const emailExists = await SubUser.findOne({ email });
 
@@ -74,6 +74,9 @@ const registerSubUser = asyncHandler(async (req, res) => {
     password,
     privilege,
     status,
+    Price,
+    SubcriptionDay,
+    Quote
   });
 
   if (subUser) {
@@ -94,6 +97,9 @@ const registerSubUser = asyncHandler(async (req, res) => {
       applicationAccess2:subUser.applicationAccess2,
       applicationAccess3:subUser.applicationAccess3,
       applicationAccess4:subUser.applicationAccess4,
+      Price:subUser.Price,
+      SubcriptionDay:subUser.SubcriptionDay,
+      Quote:subUser.Quote
       // token: generateToken(subUser._id),
     });
   } else {
@@ -111,9 +117,10 @@ const updateSubUserProfile = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("You are not authorized to do this");
   }
-  const { name, sl_no, gender, date_of_birth, pic, office_phone, mobile_no, email, password, privilege, status,applicationAccess4,applicationAccess3,applicationAccess2,applicationAccess1 } = req.body;
+  const { name, sl_no, gender, date_of_birth, pic, office_phone, mobile_no, email, password, privilege, status,applicationAccess4,applicationAccess3,applicationAccess2,applicationAccess1,Price,SubcriptionDay,Quote } = req.body;
+  console.log(req.body);
   const subUser = await SubUser.findById(req.params.id);
-
+  console.log(subUser);
   if (subUser) {
     subUser.name = name || subUser.name;
     subUser.sl_no = sl_no || subUser.sl_no;
@@ -129,6 +136,9 @@ const updateSubUserProfile = asyncHandler(async (req, res) => {
     subUser.applicationAccess2=applicationAccess2;
     subUser.applicationAccess3=applicationAccess3;
     subUser.applicationAccess4=applicationAccess4;
+    subUser.Price= Price || subUser.Price;
+    subUser.SubcriptionDay= SubcriptionDay  || subUser.SubcriptionDay;
+    subUser.Quote= Quote || subUser.Quote;
     if(password){
       subUser.password = password;
     }
@@ -149,7 +159,10 @@ const updateSubUserProfile = asyncHandler(async (req, res) => {
       applicationAccess2:updatedSubUser.applicationAccess2,
       applicationAccess3:updatedSubUser.applicationAccess3,
       applicationAccess4:updatedSubUser.applicationAccess4,
-      // token: generateToken(updatedSubUser._id),
+      quote:updatedSubUser.Quote,
+      price:updatedSubUser.Price,
+      subscription_day:updatedSubUser.SubcriptionDay,
+      token: generateToken(updatedSubUser._id),
     });
   } else {
     res.status(400);

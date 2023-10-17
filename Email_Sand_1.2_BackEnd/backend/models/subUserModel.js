@@ -75,6 +75,19 @@ const subUserSchema = mongoose.Schema(
       type: Boolean,
       default:false,
     },
+    Price:{
+      type:String,
+      default:0
+    },
+    SubcriptionDay:{
+      type:String,
+      default:0
+    },
+    Quote:{
+      type:String,
+      default:0
+    }
+
   },
   {
     timestamps: true,
