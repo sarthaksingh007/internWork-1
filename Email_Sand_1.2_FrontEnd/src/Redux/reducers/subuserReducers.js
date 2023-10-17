@@ -8,18 +8,31 @@ import {
   SUBUSER_REGISTER_SUCCESS,
   SUBUSER_UPDATE_FAIL,
   SUBUSER_UPDATE_REQUEST,
-  SUBUSER_UPDATE_SUCCESS, CHECKBOX_UPDATE_REQUEST, CHECKBOX_UPDATE_SUCCESS, CHECKBOX_UPDATE_FAIL
+  SUBUSER_UPDATE_SUCCESS,
+  CHECKBOX_UPDATE_REQUEST,
+  CHECKBOX_UPDATE_SUCCESS,
+  CHECKBOX_UPDATE_FAIL,
 } from "../constants/subuserConstants";
 
-export const userPermissionUpdateReducer = (state = {}, action) => {
+export const userPermissionUpdateReducer = (
+  state = { applicationAccess1: false,applicationAccess2:false,applicationAccess3:false,applicationAccess4:false },
+  action
+) => {
   switch (action.type) {
     case CHECKBOX_UPDATE_REQUEST:
       return { loading: true };
     case CHECKBOX_UPDATE_SUCCESS:
-      return { loading: true ,applicationAccess:action.payload };
+      return {
+        loading: true,
+        applicationAccess1: action.payload.applicationAccess1,
+        applicationAccess2: action.payload.applicationAccess2,
+        applicationAccess3: action.payload.applicationAccess3,
+        applicationAccess4: action.payload.applicationAccess4,
+      };
     case CHECKBOX_UPDATE_FAIL:
       return { loading: true };
     default:
+      // console.log("def", action.type);
       return state;
   }
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import "./Style.css";
@@ -16,7 +16,7 @@ import {
 
 const socket = io(`${URLAPI}`);
 
-function EmailSand() {
+function EmailSand(props) {
   const [subject, setSubject] = useState("");
   const [emailid, setEmailid] = useState("");
   const [password, setPassword] = useState("");
@@ -197,7 +197,7 @@ function EmailSand() {
               {/* <span className="mr-5 h2">Success</span> */}
               Success Total Email Send Limit:{" "}
               <span className="ml-2 text-danger">
-                50,000{/* {response.validEmails.length}{" "} */}
+                {props.SubcriptionDay}{/* {response.validEmails.length}{" "} */}
               </span>{" "}
             </h4>
             <h4>

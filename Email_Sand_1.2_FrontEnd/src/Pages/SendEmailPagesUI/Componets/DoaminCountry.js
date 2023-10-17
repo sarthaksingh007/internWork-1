@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ReactFlagsSelect from "react-flags-select";
 import URLAPI from "../API/URLAPI";
-import UpgradURPlanPart from "../../../components/Body/UpgradURPlanPart"
 import { useSelector } from "react-redux";
 function DoaminCountry() {
   const [file, setFile] = useState(null);
@@ -14,8 +13,6 @@ function DoaminCountry() {
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
-  const upplan1=useSelector(state=>state.userPermissionUpdate.cb1);
-  console.log(upplan1,"route");
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!file) return;
@@ -36,7 +33,9 @@ function DoaminCountry() {
     if (selectedRegion === "All") {
       setFilteredResults(results);
     } else {
-      const filtered = results.filter(({ country }) => country === selectedRegion);
+      const filtered = results.filter(
+        ({ country }) => country === selectedRegion
+      );
       filtered.forEach((domain) => {
         domain.country = selectedRegion;
       });
@@ -44,15 +43,13 @@ function DoaminCountry() {
     }
   };
 
-
   const EmailSand = () => {
     history.push("/EmailSand");
   };
 
-  
-    return upplan1 ?  (
+  return (
     <>
-     <h3>
+      <h3>
         <i class="bi bi-geo-alt-fill"></i>
         <span> Applications /</span>Domain Country
       </h3>
@@ -61,23 +58,25 @@ function DoaminCountry() {
           <div className="form-input">
             <label htmlFor="emailList"> Domain List </label>
             <div className="d-flex justify-content-between">
-            <input
-              type="file"
-              name="emailList"
-              id="emailList"
-              onChange={handleFileChange}
-            />
-            <button onClick={handleFormSubmit} className="btn btn-primary p-1">
-            Find Country Name
-          </button>
-          {/* <button onClick={EmailSand} className="btn btn-primary">
+              <input
+                type="file"
+                name="emailList"
+                id="emailList"
+                onChange={handleFileChange}
+              />
+              <button
+                onClick={handleFormSubmit}
+                className="btn btn-primary p-1"
+              >
+                Find Country Name
+              </button>
+              {/* <button onClick={EmailSand} className="btn btn-primary">
             Next
           </button> */}
-        </div>
+            </div>
           </div>
         </div>
-       
-          
+
         <hr />
 
         {filteredResults.length <= 0 && (
@@ -116,7 +115,7 @@ function DoaminCountry() {
                 </div>
               </div>
 
-              <table  class="table table-hover">
+              <table class="table table-hover">
                 <thead>
                   <tr>
                     <th scope="col">#SL</th>
@@ -125,57 +124,58 @@ function DoaminCountry() {
                   </tr>
                 </thead>
                 <tbody>
-                {results.reverse().map(({ domain, country }, i) => (
-  country === selectedRegion && (
-                    <tr key={domain}>
-                      <th scope="row">{i + 1}</th>
+                  {results.reverse().map(
+                    ({ domain, country }, i) =>
+                      country === selectedRegion && (
+                        <tr key={domain}>
+                          <th scope="row">{i + 1}</th>
 
-                      <td>{domain}</td>
-                      {/* <td>{country}</td> */}
-                      <td
-                        style={{
-                          width: "20px",
-                          textDecoration: "none",
-                          border: "none",
-                        }}
-                      >
-                        {country && (
-                          <ReactFlagsSelect
-                            countries={[
-                              "US",
-                              "GB",
-                              "CA",
-                              "FR",
-                              "DE",
-                              "IT",
-                              "ES",
-                              "IN",
-                              "CN",
-                              "JP",
-                              "KR",
-                              "AU",
-                            ]}
-                            customLabels={{
-                              US: "USA",
-                              GB: "UK",
-                              CA: "Canada",
-                              FR: "France",
-                              DE: "Germany",
-                              IT: "Italy",
-                              ES: "Spain",
-                              IN: "India",
-                              CN: "China",
-                              JP: "Japan",
-                              KR: "South Korea",
-                              AU: "Australia",
+                          <td>{domain}</td>
+                          {/* <td>{country}</td> */}
+                          <td
+                            style={{
+                              width: "20px",
+                              textDecoration: "none",
+                              border: "none",
                             }}
-                            selected={country}
-                          />
-                        )}
-                      </td>
-                    </tr>
-                )
-                ))}
+                          >
+                            {country && (
+                              <ReactFlagsSelect
+                                countries={[
+                                  "US",
+                                  "GB",
+                                  "CA",
+                                  "FR",
+                                  "DE",
+                                  "IT",
+                                  "ES",
+                                  "IN",
+                                  "CN",
+                                  "JP",
+                                  "KR",
+                                  "AU",
+                                ]}
+                                customLabels={{
+                                  US: "USA",
+                                  GB: "UK",
+                                  CA: "Canada",
+                                  FR: "France",
+                                  DE: "Germany",
+                                  IT: "Italy",
+                                  ES: "Spain",
+                                  IN: "India",
+                                  CN: "China",
+                                  JP: "Japan",
+                                  KR: "South Korea",
+                                  AU: "Australia",
+                                }}
+                                selected={country}
+                              />
+                            )}
+                          </td>
+                        </tr>
+                      )
+                  )}
                 </tbody>
               </table>
             </div>
@@ -183,9 +183,7 @@ function DoaminCountry() {
         )}
       </div>
     </>
-    ):
-    <UpgradURPlanPart />
-  
+  );
 }
 
 export default DoaminCountry;

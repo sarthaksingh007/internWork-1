@@ -8,6 +8,7 @@ const AddUserProfile = ({ dispatch }) => {
   const history = useHistory();
   const params = useParams();
   const userLogin = useSelector((state) => state.userLogin);
+  console.log("user info", userLogin);
   const { userInfo } = userLogin;
   const [subUser, setSubUsers] = useState({
     pic: "",
@@ -22,6 +23,9 @@ const AddUserProfile = ({ dispatch }) => {
     username: "",
     password: "",
     privilege: "",
+    Quote:"",
+    SubcriptionDay:"",
+    Price:""
   });
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -38,6 +42,9 @@ const AddUserProfile = ({ dispatch }) => {
     username,
     password,
     privilege,
+    Quote,
+    SubcriptionDay,
+    Price
   } = subUser;
 
   const addSubUser = async (e) => {
@@ -55,7 +62,10 @@ const AddUserProfile = ({ dispatch }) => {
         email &&
         username &&
         password &&
-        privilege
+        privilege &&
+        Quote &&
+        SubcriptionDay &&
+        Price
       ) {
         const config = {
           headers: {
@@ -77,6 +87,9 @@ const AddUserProfile = ({ dispatch }) => {
           username: "",
           password: "",
           privilege: "",
+          Quote:"",
+          SubcriptionDay:"",
+          Price:""
         });
         history.push("/hub/UserProfile");
         return;
@@ -116,6 +129,9 @@ const AddUserProfile = ({ dispatch }) => {
         username: "",
         password: "",
         privilege: "",
+        Quote:"",
+        SubcriptionDay:"",
+        Price:""
       });
       history.push("/hub/UserProfile");
     } catch (error) {
@@ -354,6 +370,54 @@ const AddUserProfile = ({ dispatch }) => {
             </div>
           </form>
 
+
+          <div className="border border-2 d-flex bg-light h3  p-2">
+            More Details
+          </div>
+          <form class="row g-3 d-flex justify-content-between">
+            <div class="col-md-4">
+              <label for="inputEmail4" class="form-label">
+                Price
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputAddress"
+                placeholder="Price"
+                name="Price"
+                value={Price}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+            <div class="col-md-3">
+              <label for="inputPassword4" class="form-label">
+                Subscription Day
+              </label>
+              <input
+                type="text"
+                class="form-control "
+                id="input"
+                placeholder=" Subscription Day"
+                name="SubcriptionDay"
+                value={SubcriptionDay}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+            <div class="col-md-3 mb-5">
+              <label for="inputState" class="form-label">
+                Quote
+              </label>
+              <input
+                type="text"
+                class="form-control p-1"
+                id="inputAddress"
+                name="Quote"
+                placeholder="Quote"
+                value={Quote}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+          </form>  
           <div className="btn">
             {/* <button type="submit" className="Submit-btn">
               Submit

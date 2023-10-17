@@ -8,38 +8,133 @@ import {
   SUBUSER_REGISTER_SUCCESS,
   SUBUSER_UPDATE_FAIL,
   SUBUSER_UPDATE_REQUEST,
-  SUBUSER_UPDATE_SUCCESS,CHECKBOX_UPDATE_REQUEST,CHECKBOX_UPDATE_SUCCESS,CHECKBOX_UPDATE_FAIL
+  SUBUSER_UPDATE_SUCCESS,
+  CHECKBOX_UPDATE_REQUEST,
+  CHECKBOX_UPDATE_SUCCESS,
 } from "../constants/subuserConstants";
 import axios from "axios";
 
 // const APIURL = "http://18.223.134.153:5000";
 import { APIURL } from "../APIURL";
 
-
-
-export const updateCheckbox1 = ( value,id) => async (dispatch) => {
-  console.log("action",value);
+export const updateCheckbox1 = (value, id, getData) => async (dispatch) => {
+  // console.log("action", value);
   try {
     dispatch({ type: CHECKBOX_UPDATE_REQUEST });
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const config = {
       headers: {
-        "Content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST,GET,OPTIONS, PUT, DELETE",
-        "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
-
     const { data } = await axios.put(
-      `${APIURL}/api/subUsers/profile/:${id}`,
+      `${APIURL}/api/subUsers/profile/${id}`,
       value,
       config
     );
-    console.log(data);
-  } catch (error) {
-    
-  }
-    // dispatch({ type:  ,payload:{value,id}});
+    // console.log(data, "action");
+    getData();
+    dispatch({
+      type: CHECKBOX_UPDATE_SUCCESS,
+      payload: {
+        applicationAccess1: data.applicationAccess1,
+        applicationAccess2: data.applicationAccess2,
+        applicationAccess3: data.applicationAccess3,
+        applicationAccess4: data.applicationAccess4,
+      },
+    });
+  } catch (error) {}
+};
+
+export const updateCheckbox2 = (value, id, getData) => async (dispatch) => {
+  // console.log("action", value);
+  try {
+    dispatch({ type: CHECKBOX_UPDATE_REQUEST });
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `${APIURL}/api/subUsers/profile/${id}`,
+      value,
+      config
+    );
+    // console.log(data, "action");
+    getData();
+    dispatch({
+      type: CHECKBOX_UPDATE_SUCCESS,
+      payload: {
+        applicationAccess1: data.applicationAccess1,
+        applicationAccess2: data.applicationAccess2,
+        applicationAccess3: data.applicationAccess3,
+        applicationAccess4: data.applicationAccess4,
+      },
+    });
+  } catch (error) {}
+};
+
+export const updateCheckbox3 = (value, id, getData) => async (dispatch) => {
+  // console.log("action", value);
+  try {
+    dispatch({ type: CHECKBOX_UPDATE_REQUEST });
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `${APIURL}/api/subUsers/profile/${id}`,
+      value,
+      config
+    );
+    // console.log(data, "action");
+    getData();
+    dispatch({
+      type: CHECKBOX_UPDATE_SUCCESS,
+      payload: {
+        applicationAccess1: data.applicationAccess1,
+        applicationAccess2: data.applicationAccess2,
+        applicationAccess3: data.applicationAccess3,
+        applicationAccess4: data.applicationAccess4,
+      },
+    });
+  } catch (error) {}
+};
+
+export const updateCheckbox4 = (value, id, getData) => async (dispatch) => {
+  // console.log("action", value);
+  try {
+    dispatch({ type: CHECKBOX_UPDATE_REQUEST });
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `${APIURL}/api/subUsers/profile/${id}`,
+      value,
+      config
+    );
+    // console.log(data, "action");
+    getData();
+    dispatch({
+      type: CHECKBOX_UPDATE_SUCCESS,
+      payload: {
+        applicationAccess1: data.applicationAccess1,
+        applicationAccess2: data.applicationAccess2,
+        applicationAccess3: data.applicationAccess3,
+        applicationAccess4: data.applicationAccess4,
+      },
+    });
+  } catch (error) {}
 };
 
 export const login = (email, password) => async (dispatch) => {
@@ -51,7 +146,8 @@ export const login = (email, password) => async (dispatch) => {
         "Content-type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST,GET,OPTIONS, PUT, DELETE",
-        "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
+        "Access-Control-Allow-Headers":
+          "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
       },
     };
 
@@ -62,7 +158,15 @@ export const login = (email, password) => async (dispatch) => {
     );
 
     dispatch({ type: SUBUSER_LOGIN_SUCCESS, payload: data });
-
+    dispatch({
+      type: CHECKBOX_UPDATE_SUCCESS,
+      payload: {
+        applicationAccess1: data.applicationAccess1,
+        applicationAccess2: data.applicationAccess2,
+        applicationAccess3: data.applicationAccess3,
+        applicationAccess4: data.applicationAccess4,
+      },
+    });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
@@ -80,38 +184,66 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: SUBUSER_LOGOUT });
 };
 
-export const register = (name, sl_no, gender, date_of_birth, pic, office_phone, mobile_no, email, username, password, privilege, status) => async (dispatch) => {
-  try {
-    dispatch({ type: SUBUSER_REGISTER_REQUEST });
+export const register =
+  (
+    name,
+    sl_no,
+    gender,
+    date_of_birth,
+    pic,
+    office_phone,
+    mobile_no,
+    email,
+    username,
+    password,
+    privilege,
+    status
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: SUBUSER_REGISTER_REQUEST });
 
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-      },
-    };
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      };
 
-    const { data } = await axios.post(
-      `${APIURL}/api/subUsers`,
-      { name, sl_no, gender, date_of_birth, pic, office_phone, mobile_no, email, username, password, privilege, status },
-      config
-    );
+      const { data } = await axios.post(
+        `${APIURL}/api/subUsers`,
+        {
+          name,
+          sl_no,
+          gender,
+          date_of_birth,
+          pic,
+          office_phone,
+          mobile_no,
+          email,
+          username,
+          password,
+          privilege,
+          status,
+        },
+        config
+      );
 
-    dispatch({ type: SUBUSER_REGISTER_SUCCESS, payload: data });
+      dispatch({ type: SUBUSER_REGISTER_SUCCESS, payload: data });
 
-    dispatch({ type: SUBUSER_LOGIN_SUCCESS, payload: data });
+      dispatch({ type: SUBUSER_LOGIN_SUCCESS, payload: data });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
-  } catch (error) {
-    dispatch({
-      type: SUBUSER_REGISTER_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: SUBUSER_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 // export const updateProfile = (user) => async (dispatch, getState) => {
 //   try {
@@ -146,7 +278,6 @@ export const register = (name, sl_no, gender, date_of_birth, pic, office_phone, 
 //   }
 // };
 
-
 export const updateProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch({ type: SUBUSER_UPDATE_REQUEST });
@@ -176,7 +307,11 @@ export const updateProfile = (user) => async (dispatch, getState) => {
       status: user.status,
     };
 
-    const { data } = await axios.put(`${APIURL}/api/subUsers/profile/${userInfo._id}`, updatedUser, config);
+    const { data } = await axios.put(
+      `${APIURL}/api/subUsers/profile/${userInfo._id}`,
+      updatedUser,
+      config
+    );
 
     dispatch({ type: SUBUSER_UPDATE_SUCCESS, payload: data });
 
@@ -194,4 +329,3 @@ export const updateProfile = (user) => async (dispatch, getState) => {
     });
   }
 };
-

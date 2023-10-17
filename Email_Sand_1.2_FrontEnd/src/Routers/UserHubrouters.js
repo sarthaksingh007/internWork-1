@@ -57,13 +57,19 @@ import PasswordChange from "../components/Application/ProfileScreen/PasswordChan
 import Emailsend from "../Pages/SendEmailPagesUI/Componets/EmailSand";
 import DoaminCountry from "../Pages/SendEmailPagesUI/Componets/DoaminCountry";
 import UpgradURPlanPart from "../components/Body/UpgradURPlanPart";
-import AddDomain from "../Pages/SendEmailPagesUI/Pages/AddDomain"; 
+import AddDomain from "../Pages/SendEmailPagesUI/Pages/AddDomain";
+import EmailExtract from "../Pages/SendEmailPagesUI/Componets/EmailExtract"
+import ValidEmailsPart from "../Pages/SendEmailPagesUI/Componets/ValidEmailsPart";
 function UserHubrouters({ history }) {
   const [inactive, setInactive] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
+  // const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  console.log(userLogin);
+
+  // console.log(userInfo, "use");
   if (!userInfo) {
     history.push("/login");
     window.location.reload(false);
@@ -76,7 +82,6 @@ function UserHubrouters({ history }) {
   // }, [history, userInfo]);
   // const upplan1=useSelector(state=>state.userPermissionUpdate.cb1);
   // console.log(upplan1,"route");
-  
   return (
     <div className="App">
       <Router>
@@ -106,9 +111,17 @@ function UserHubrouters({ history }) {
           <Switch>
             <Route exact path="/user/Dashbord" component={Dashboard} />
             <Route exact path="/user/upplan" component={AddDomain} />
-            <Route exact path="/user/upplan1" component={DoaminCountry} />
-            <Route exact path="/user/upplan2" component={UpgradURPlanPart} />
-            <Route exact path="/user/upplan3" component={UpgradURPlanPart} />
+            <Route
+              exact
+              path="/user/upplan1"
+              component={
+                userInfo.applicationAccess1 ? DoaminCountry : UpgradURPlanPart
+              }
+            />
+            <Route exact path="/user/upplan2" component={
+              userInfo.applicationAccess2 ? EmailExtract : UpgradURPlanPart} />
+            <Route exact path="/user/upplan3" component={
+              userInfo.applicationAccess3? ValidEmailsPart: UpgradURPlanPart} />
             <Route exact path={"/user/UserProfile"}>
               <UserProfile />
             </Route>
@@ -253,8 +266,8 @@ function UserHubrouters({ history }) {
               <ProfileScreen />
             </Route>
 
-            <Route path="/user/Emailsend" component={Emailsend} />
-
+            <Route path="/user/Emailsend" component={
+             userInfo.applicationAccess4? Emailsend :UpgradURPlanPart} />
           </Switch>
         </div>
       </Router>

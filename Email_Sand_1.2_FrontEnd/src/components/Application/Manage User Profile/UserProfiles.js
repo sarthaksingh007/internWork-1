@@ -7,28 +7,22 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import axios from "axios";
 import { APIURL } from "../../../Redux/APIURL";
-import { updateCheckbox1 } from "../../../Redux/actions/subuserActions";
-const UserProfiles = ({ }) => {
+import { updateCheckbox1,updateCheckbox2,updateCheckbox3,updateCheckbox4 } from "../../../Redux/actions/subuserActions";
+const UserProfiles = ({}) => {
   const history = useHistory();
   const userLogin = useSelector((state) => state.userLogin);
-  const upplan=useSelector(state=>state.userPermissionUpdate.cb1)
-  console.log(upplan,"up");
+  const upplan = useSelector((state) => state.userPermissionUpdate);
   const { userInfo } = userLogin;
   const [data, setData] = useState([]);
   const CreateMagazin = () => {
     history.push("/hub/AddUserProfile");
   };
-  const [checkbox,setCheckbox]=useState({aa1:false,aa2:false,aa3:false,aa4:false})
+
   const getData = async () => {
     try {
       const response = await axios.get(`${APIURL}/api/subUsers/`);
-      console.log(response.data);
       setData(response.data);
-      setCheckbox({
-        aa1:response.data.applicationAccess1,
-        aa2:response.data.applicationAccess2,
-        aa3:response.data.applicationAccess3,
-        aa4:response.data.applicationAccess4})
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -59,28 +53,32 @@ const UserProfiles = ({ }) => {
 
   const refreshPage = () => {
     window.location.reload(false);
-  }
+  };
 
   const printthepage = () => {
     window.print();
-  }
- const dispatch= useDispatch();
- const handleChange =(e,id)=>{
-  if(e.target.name==="checkbox1"){
-    console.log("fun",!checkbox.aa1);
-    setCheckbox((prev)=>(
-{      ...prev,
-      aa1:!checkbox.aa1}
-    ));
-    dispatch(updateCheckbox1(checkbox,id));
-  }else if(e.target.name==="checkbox2"){
-
-  }else if(e.target.name==="checkbox3"){
-
-  }else{
-
-  }
- }
+  };
+  const dispatch = useDispatch();
+  const handleChange = (e, id, i) => {
+    const dummy = data;
+    if (e.target.name === "checkbox1") {
+      dummy[i].applicationAccess1 = !data[i].applicationAccess1;
+      setData([...dummy]);
+      dispatch(updateCheckbox1(data[i], id, getData));
+    } else if (e.target.name === "checkbox2") {
+      dummy[i].applicationAccess2 = !data[i].applicationAccess2;
+      setData([...dummy]);
+      dispatch(updateCheckbox2(data[i], id, getData));
+    } else if (e.target.name === "checkbox3") {
+      dummy[i].applicationAccess3 = !data[i].applicationAccess3;
+      setData([...dummy]);
+      dispatch(updateCheckbox3(data[i], id, getData));
+    } else {
+      dummy[i].applicationAccess4 = !data[i].applicationAccess4;
+      setData([...dummy]);
+      dispatch(updateCheckbox4(data[i], id, getData));
+    }
+  };
   return (
     <div>
       <form action="">
@@ -255,45 +253,55 @@ const UserProfiles = ({ }) => {
                           </button>
                         )}
                       </td>
-                      <td className="p-2">{item.sl_no}</td>
-                      <td className="p-2">{Math.floor(item.sl_no * 258 / 100000)}</td>
+                      <td className="p-2">{item.Price}</td>
                       <td className="p-2">
-
+                        {item.SubcriptionDay}
+                      </td>
+                      <td className="p-2">
                         <input
                           class="form-check-input p-1 m-1"
                           type="checkbox"
                           id="flexCheckDefault"
                           name="checkbox1"
                           style={{ border: "solid 1px #000" }}
-                        value={item.applicationAccess1}
-                        onChange={(e) => handleChange(e,item._id)}
-                        />1,  
+                          value={item.applicationAccess1}
+                          checked={item.applicationAccess1}
+                          onChange={(e) => handleChange(e, item._id, i)}
+                        />
+                        1,
                         <input
                           class="form-check-input p-1 m-1"
                           type="checkbox"
                           id="flexCheckDefault"
                           name="checkbox2"
                           style={{ border: "solid 1px #000" }}
-                        value={item.applicationAccess2}
-                        onChange={(e) => handleChange(e,item._id)}
-                        />2, 
+                          value={item.applicationAccess2}
+                          checked={item.applicationAccess2}
+                          onChange={(e) => handleChange(e, item._id,i)}
+                        />
+                        2,
                         <input
                           class="form-check-input p-1 m-1"
                           type="checkbox"
                           id="flexCheckDefault"
                           name="checkbox3"
                           style={{ border: "solid 1px #000" }}
-                        value={item.applicationAccess3}
-                        onChange={(e,t) => handleChange(e,item._id)}
-                        />3, <input
+                          value={item.applicationAccess3}
+                          checked={item.applicationAccess3}
+                          onChange={(e, t) => handleChange(e, item._id,i)}
+                        />
+                        3,{" "}
+                        <input
                           class="form-check-input p-1 m-1"
                           type="checkbox"
                           id="flexCheckDefault"
                           name="checkbox4"
                           style={{ border: "solid 1px #000" }}
-                        value={item.applicationAccess4}
-                        onChange={(e) => handleChange(e,item._id)}
-                        />4,
+                          value={item.applicationAccess4}
+                          checked={item.applicationAccess4}
+                          onChange={(e) => handleChange(e, item._id,i)}
+                        />
+                        4,
                       </td>
 
                       <td className="p-2">{item.createdAt.substring(0, 10)}</td>
